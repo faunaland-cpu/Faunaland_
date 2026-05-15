@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaunaLand LMS - Materi Belajar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f7f4; }
+        .sidebar { height: 100vh; position: fixed; top: 0; left: 0; width: 280px; background: #2d6a4f; color: white; overflow-y: auto; transition: 0.3s; z-index: 1000; }
+        .content { margin-left: 280px; padding: 40px; transition: 0.3s; }
+        .chapter-card { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .chapter-card.active { display: block; }
+        .nav-item { cursor: pointer; transition: 0.3s; border-radius: 8px; margin-bottom: 5px; }
+        .nav-item:hover, .nav-item.active { background: #40916c; padding-left: 15px; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .progress-container { position: sticky; top: 0; z-index: 50; background: #f0f7f4; padding: 10px 0; }
+        .info-box { border-left: 5px solid #2d6a4f; background: #d8f3dc; padding: 15px; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 10px; overflow: hidden; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #2d6a4f; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar p-6">
+        <h2 class="text-2xl font-bold mb-8 flex items-center">
+            <i class="fas fa-paw mr-3"></i> FaunaLand
+        </h2>
+        <nav>
+            <div onclick="showChapter('bab1', this)" class="nav-item p-3 active">1. Habitat Hewan</div>
+            <div onclick="showChapter('bab2', this)" class="nav-item p-3">2. Cara Bergerak</div>
+            <div onclick="showChapter('bab3', this)" class="nav-item p-3">3. Jenis Makanan</div>
+            <div onclick="showChapter('bab4', this)" class="nav-item p-3">4. Kekuatan Super</div>
+            <div onclick="showChapter('bab5', this)" class="nav-item p-3">5. Bentuk Tubuh</div>
+            <div onclick="showChapter('bab6', this)" class="nav-item p-3">6. Pelestarian</div>
+            <div onclick="showChapter('bab7', this)" class="nav-item p-3">7. Daur Hidup</div>
+        </nav>
+        <div class="mt-10 pt-10 border-t border-green-700">
+            <a href="https://gemini.google.com/share/d46206437483" target="_blank" class="block bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-2 px-4 rounded text-center transition">
+                <i class="fas fa-gamepad mr-2"></i> Main Game!
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="progress-container">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold text-green-800">Progress Belajar Kamu</span>
+                <span id="progressText" class="text-sm font-bold text-green-800">14%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progressBar" class="bg-green-600 h-2.5 rounded-full" style="width: 14%"></div>
+            </div>
+        </div>
+
+        <div id="bab1" class="chapter-card active mt-8">
+            <h1 class="text-4xl font-bold text-green-800 mb-6">Tempat Hidup Hewan (Habitat)</h1>
+            <p class="text-gray-700 mb-4">Habitat adalah tempat tinggal alami bagi makhluk hidup untuk mencari makan dan berkembang biak.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-orange-500">
+                    <h3 class="font-bold text-xl mb-2 text-orange-600"><i class="fas fa-mountain mr-2"></i>Darat</h3>
+                    <p class="text-sm text-gray-600">Bernapas dengan paru-paru. Contoh: Hutan (Harimau), Gurun (Unta), Kutub (Penguin).</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-blue-500">
+                    <h3 class="font-bold text-xl mb-2 text-blue-600"><i class="fas fa-water mr-2"></i>Air</h3>
+                    <p class="text-sm text-gray-600">Bernapas dengan insang. Terbagi atas Air Tawar (Ikan Mas) dan Air Laut (Hiu).</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-green-500">
+                    <h3 class="font-bold text-xl mb-2 text-green-600"><i class="fas fa-frog mr-2"></i>Amfibi</h3>
+                    <p class="text-sm text-gray-600">Hidup di dua alam. Masa kecil di air (insang), dewasa di darat (paru-paru & kulit).</p>
+                </div>
+            </div>
+            <div class="info-box">
+                <strong>Tahukah Kamu?</strong> Ikan laut tidak bisa hidup di air tawar karena kadar garamnya harus pas!
+            </div>
+        </div>
+
+        <div id="bab2" class="chapter-card mt-8">
+            <h1 class="text-4xl font-bold text-green-800 mb-6">Bagaimana Hewan Bergerak?</h1>
+            <div class="space-y-4">
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h3 class="font-bold text-lg text-green-700">🚀 Melompat (Si Kaki Pegas)</h3>
+                    <p>Memiliki kaki belakang yang lebih panjang dan kuat. Contoh: Kanguru, Katak, Kelinci.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h3 class="font-bold text-lg text-green-700">🦅 Terbang (Menembus Angkasa)</h3>
+                    <p>Menggunakan gaya angkat sayap dan memiliki tulang yang ringan. Contoh: Burung, Kelelawar.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg shadow flex justify-between gap-4">
+                    <div class="w-1/2">
+                        <h4 class="font-bold border-b-2 border-yellow-500 mb-2">Merayap</h4>
+                        <p class="text-sm text-gray-600">Menggunakan kaki pendek di samping. Contoh: Cecak, Buaya.</p>
+                    </div>
+                    <div class="w-1/2">
+                        <h4 class="font-bold border-b-2 border-red-500 mb-2">Melata</h4>
+                        <p class="text-sm text-gray-600">Tanpa kaki, pakai otot perut. Contoh: Ular, Cacing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bab3" class="chapter-card mt-8">
+            <h1 class="text-4xl font-bold text-green-800 mb-6">Apa yang Hewan Makan?</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-green-100 p-4 rounded border border-green-300">
+                    <h3 class="font-bold">Herbivora</h3>
+                    <p class="text-sm italic">Pemakan Tumbuhan</p>
+                    <p class="mt-2 text-xs">Gigi geraham lebar untuk menggiling serat. Contoh: Gajah, Sapi.</p>
+                </div>
+                <div class="bg-red-100 p-4 rounded border border-red-300">
+                    <h3 class="font-bold">Karnivora</h3>
+                    <p class="text-sm italic">Pemakan Daging</p>
+                    <p class="mt-2 text-xs">Gigi taring runcing untuk mengoyak. Contoh: Harimau, Elang.</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded border border-blue-300">
+                    <h3 class="font-bold">Omnivora</h3>
+                    <p class="text-sm italic">Pemakan Segala</p>
+                    <p class="mt-2 text-xs">Gigi lengkap (seri, taring, geraham). Contoh: Ayam, Monyet.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="bab7" class="chapter-card mt-8">
+            <h1 class="text-4xl font-bold text-green-800 mb-6">Daur Hidup (Metamorfosis)</h1>
+            <p class="mb-4 text-gray-700">Daur hidup adalah tahapan kehidupan dari lahir hingga dewasa.</p>
+            
+            <div class="bg-white p-6 rounded-xl shadow mb-6">
+                <h3 class="font-bold text-xl mb-4">Perbandingan Metamorfosis</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metamorfosis Sempurna</th>
+                            <th>Metamorfosis Tidak Sempurna</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mengalami fase pupa/kepompong</td>
+                            <td>Tidak memiliki fase pupa</td>
+                        </tr>
+                        <tr>
+                            <td>Bentuk muda & dewasa sangat berbeda</td>
+                            <td>Bentuk muda & dewasa hampir sama</td>
+                        </tr>
+                        <tr>
+                            <td>Contoh: Kupu-kupu, Nyamuk</td>
+                            <td>Contoh: Kecoak, Belalang</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-between">
+            <button onclick="prevChapter()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition">
+                <i class="fas fa-arrow-left mr-2"></i> Sebelumnya
+            </button>
+            <button onclick="nextChapter()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
+                Berikutnya <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const chapters = ['bab1', 'bab2', 'bab3', 'bab4', 'bab5', 'bab6', 'bab7'];
+        let currentIdx = 0;
+
+        function showChapter(id, element) {
+            // Update active content
+            document.querySelectorAll('.chapter-card').forEach(card => card.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            // Update sidebar active class
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            // Update Progress
+            currentIdx = chapters.indexOf(id);
+            updateProgress();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateProgress() {
+            let progress = Math.round(((currentIdx + 1) / chapters.length) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').innerText = progress + '%';
+        }
+
+        function nextChapter() {
+            if (currentIdx < chapters.length - 1) {
+                currentIdx++;
+                showChapter(chapters[currentIdx]);
+                updateSidebar();
+            }
+        }
+
+        function prevChapter() {
+            if (currentIdx > 0) {
+                currentIdx--;
+                showChapter(chapters[currentIdx]);
+                updateSidebar();
+            }
+        }
+
+        function updateSidebar() {
+            document.querySelectorAll('.nav-item').forEach((item, index) => {
+                item.classList.toggle('active', index === currentIdx);
+            });
+        }
+    </script>
+</body>
+</html>
