@@ -3,219 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaunaLand LMS - Materi Belajar</title>
+    <title>FaunaLand LMS - Materi Belajar Lengkap</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         
-        body { font-family: 'Poppins', sans-serif; background-color: #f0f7f4; }
-        .sidebar { height: 100vh; position: fixed; top: 0; left: 0; width: 280px; background: #2d6a4f; color: white; overflow-y: auto; transition: 0.3s; z-index: 1000; }
-        .content { margin-left: 280px; padding: 40px; transition: 0.3s; }
-        .chapter-card { display: none; animation: fadeIn 0.5s ease-in-out; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f7f4; color: #2d3748; }
+        .sidebar { height: 100vh; position: fixed; top: 0; left: 0; width: 280px; background: #1b4332; color: white; overflow-y: auto; transition: 0.3s; z-index: 1000; }
+        .content { margin-left: 280px; padding: 40px; transition: 0.3s; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        .chapter-card { display: none; animation: fadeIn 0.4s ease-in-out; }
         .chapter-card.active { display: block; }
-        .nav-item { cursor: pointer; transition: 0.3s; border-radius: 8px; margin-bottom: 5px; }
-        .nav-item:hover, .nav-item.active { background: #40916c; padding-left: 15px; }
+        .nav-item { cursor: pointer; transition: 0.2s; border-radius: 8px; margin-bottom: 6px; border-left: 4px solid transparent; }
+        .nav-item:hover, .nav-item.active { background: #40916c; padding-left: 15px; border-left-color: #95d5b2; }
         
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        .progress-container { position: sticky; top: 0; z-index: 50; background: #f0f7f4; padding: 10px 0; }
-        .info-box { border-left: 5px solid #2d6a4f; background: #d8f3dc; padding: 15px; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 10px; overflow: hidden; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #2d6a4f; color: white; }
+        .progress-container { position: sticky; top: 0; z-index: 50; background: #f0f7f4; padding: 15px 0; border-bottom: 2px solid #e2e8f0; }
+        .info-box { border-left: 5px solid #2d6a4f; background: #d8f3dc; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .alert-box { border-left: 5px solid #e63946; background: #ffe3e3; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        th, td { border: 1px solid #e2e8f0; padding: 14px; text-align: left; }
+        th { background-color: #2d6a4f; color: white; font-weight: 600; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar p-6">
-        <h2 class="text-2xl font-bold mb-8 flex items-center">
-            <i class="fas fa-paw mr-3"></i> FaunaLand
-        </h2>
-        <nav>
-            <div onclick="showChapter('bab1', this)" class="nav-item p-3 active">1. Habitat Hewan</div>
-            <div onclick="showChapter('bab2', this)" class="nav-item p-3">2. Cara Bergerak</div>
-            <div onclick="showChapter('bab3', this)" class="nav-item p-3">3. Jenis Makanan</div>
-            <div onclick="showChapter('bab4', this)" class="nav-item p-3">4. Kekuatan Super</div>
-            <div onclick="showChapter('bab5', this)" class="nav-item p-3">5. Bentuk Tubuh</div>
-            <div onclick="showChapter('bab6', this)" class="nav-item p-3">6. Pelestarian</div>
-            <div onclick="showChapter('bab7', this)" class="nav-item p-3">7. Daur Hidup</div>
-        </nav>
-        <div class="mt-10 pt-10 border-t border-green-700">
-            <a href="https://gemini.google.com/share/d46206437483" target="_blank" class="block bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold py-2 px-4 rounded text-center transition">
-                <i class="fas fa-gamepad mr-2"></i> Main Game!
-            </a>
+    <div class="sidebar p-6 flex flex-col justify-between">
+        <div>
+            <h2 class="text-2xl font-bold mb-8 flex items-center text-green-400">
+                <i class="fas fa-paw mr-3"></i> FaunaLand
+            </h2>
+            <nav id="lms-nav">
+                <div onclick="showChapter('bab1', this)" class="nav-item p-3 active text-sm font-medium"><i class="fas fa-map-marker-alt mr-2 w-5"></i>1. Tempat Hidup (Habitat)</div>
+                <div onclick="showChapter('bab2', this)" class="nav-item p-3 text-sm font-medium"><i class="fas fa-running mr-2 w-5"></i>2. Cara Bergerak</div>
+                <div onclick="showChapter('bab3', this)" class="nav-item p-3 text-sm font-medium"><i class="fas fa-utensils mr-2 w-5"></i>3. Jenis Makanan</div>
+                <div onclick="showChapter('bab4', this)" class="nav-item p-3 text-sm font-medium"><i class="fas fa-bolt mr-2 w-5"></i>4. Kekuatan Super</div>
+                <div onclick="showChapter('bab5', this)" class="nav-item p-3 text-sm font-medium"><i class="fas fa-shapes mr-2 w-5"></i>5. Bentuk Tubuh & Habitat</div>
+                <div onclick="showChapter('bab6', this)" class="nav-item p-3 text-sm font-medium"><i class="fas fa-leaf mr-2 w-5"></i>6. Pelestarian Hewan</div>
+                <div onclick="showChapter('bab7', this)" class="nav-item p-3 text-sm font-medium"><i class="fas fa-sync-alt mr-2 w-5"></i>7. Daur Hidup (Metamorfosis)</div>
+            </nav>
+        </div>
+        
+        <div class="mt-8 pt-6 border-t border-green-700 text-center text-xs text-green-300">
+            <p>Selesaikan setiap bab dan klik tombol interaktif di dalam materi!</p>
         </div>
     </div>
 
     <div class="content">
         <div class="progress-container">
             <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-semibold text-green-800">Progress Belajar Kamu</span>
+                <span class="text-sm font-semibold text-green-800"><i class="fas fa-graduation-cap mr-1"></i> Progres Belajarmu</span>
                 <span id="progressText" class="text-sm font-bold text-green-800">14%</span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                <div id="progressBar" class="bg-green-600 h-2.5 rounded-full" style="width: 14%"></div>
+            <div class="w-full bg-gray-200 rounded-full h-3 shadow-inner">
+                <div id="progressBar" class="bg-gradient-to-r from-green-500 to-green-700 h-3 rounded-full transition-all duration-500" style="width: 14%"></div>
             </div>
         </div>
 
-        <div id="bab1" class="chapter-card active mt-8">
-            <h1 class="text-4xl font-bold text-green-800 mb-6">Tempat Hidup Hewan (Habitat)</h1>
-            <p class="text-gray-700 mb-4">Habitat adalah tempat tinggal alami bagi makhluk hidup untuk mencari makan dan berkembang biak.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-orange-500">
-                    <h3 class="font-bold text-xl mb-2 text-orange-600"><i class="fas fa-mountain mr-2"></i>Darat</h3>
-                    <p class="text-sm text-gray-600">Bernapas dengan paru-paru. Contoh: Hutan (Harimau), Gurun (Unta), Kutub (Penguin).</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-blue-500">
-                    <h3 class="font-bold text-xl mb-2 text-blue-600"><i class="fas fa-water mr-2"></i>Air</h3>
-                    <p class="text-sm text-gray-600">Bernapas dengan insang. Terbagi atas Air Tawar (Ikan Mas) dan Air Laut (Hiu).</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-green-500">
-                    <h3 class="font-bold text-xl mb-2 text-green-600"><i class="fas fa-frog mr-2"></i>Amfibi</h3>
-                    <p class="text-sm text-gray-600">Hidup di dua alam. Masa kecil di air (insang), dewasa di darat (paru-paru & kulit).</p>
-                </div>
-            </div>
-            <div class="info-box">
-                <strong>Tahukah Kamu?</strong> Ikan laut tidak bisa hidup di air tawar karena kadar garamnya harus pas!
-            </div>
-        </div>
+        <div id="materi-container" class="my-6 flex-grow">
 
-        <div id="bab2" class="chapter-card mt-8">
-            <h1 class="text-4xl font-bold text-green-800 mb-6">Bagaimana Hewan Bergerak?</h1>
-            <div class="space-y-4">
-                <div class="bg-white p-5 rounded-lg shadow">
-                    <h3 class="font-bold text-lg text-green-700">🚀 Melompat (Si Kaki Pegas)</h3>
-                    <p>Memiliki kaki belakang yang lebih panjang dan kuat. Contoh: Kanguru, Katak, Kelinci.</p>
-                </div>
-                <div class="bg-white p-5 rounded-lg shadow">
-                    <h3 class="font-bold text-lg text-green-700">🦅 Terbang (Menembus Angkasa)</h3>
-                    <p>Menggunakan gaya angkat sayap dan memiliki tulang yang ringan. Contoh: Burung, Kelelawar.</p>
-                </div>
-                <div class="bg-white p-5 rounded-lg shadow flex justify-between gap-4">
-                    <div class="w-1/2">
-                        <h4 class="font-bold border-b-2 border-yellow-500 mb-2">Merayap</h4>
-                        <p class="text-sm text-gray-600">Menggunakan kaki pendek di samping. Contoh: Cecak, Buaya.</p>
+            <div id="bab1" class="chapter-card active">
+                <h1 class="text-3xl font-bold text-green-900 mb-2">BAB 1: Tempat Hidup Hewan (Habitat)</h1>
+                <p class="text-gray-600 mb-6">Habitat adalah lingkungan tempat tinggal alami hewan untuk bertahan hidup.</p>
+                
+                <h2 class="text-xl font-semibold text-green-800 mb-3">1.1 Hewan yang Hidup di Darat</h2>
+                <p class="mb-4 text-gray-700">Hewan darat adalah hewan yang menghabiskan sebagian besar waktunya di atas tanah. Karena hidup di darat, mereka umumnya bernapas menggunakan <strong>paru-paru</strong>. Ternyata, daratan itu sangat luas dan berbeda-beda, lho:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-green-600">
+                        <h3 class="font-bold text-green-700 mb-1"><i class="fas fa-tree mr-1"></i> Hutan dan Kebun</h3>
+                        <p class="text-sm text-gray-600">Tempat yang banyak pohon dan rimbun.<br><strong>Contoh:</strong> Kucing, Ayam, Harimau, dan Monyet.</p>
                     </div>
-                    <div class="w-1/2">
-                        <h4 class="font-bold border-b-2 border-red-500 mb-2">Melata</h4>
-                        <p class="text-sm text-gray-600">Tanpa kaki, pakai otot perut. Contoh: Ular, Cacing.</p>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                        <h3 class="font-bold text-yellow-700 mb-1"><i class="fas fa-sun mr-1"></i> Padang Rumput & Gurun (Panas)</h3>
+                        <p class="text-sm text-gray-600">Tempat yang luas dan terkadang sangat kering.<br><strong>Contoh:</strong> Unta (di gurun) dan Gajah (di sabana).</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-400">
+                        <h3 class="font-bold text-blue-700 mb-1"><i class="fas fa-snowflake mr-1"></i> Kutub (Dingin)</h3>
+                        <p class="text-sm text-gray-600">Tempat yang tertutup salju dan es sepanjang tahun.<br><strong>Contoh:</strong> Beruang Kutub dan Penguin.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div id="bab3" class="chapter-card mt-8">
-            <h1 class="text-4xl font-bold text-green-800 mb-6">Apa yang Hewan Makan?</h1>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-green-100 p-4 rounded border border-green-300">
-                    <h3 class="font-bold">Herbivora</h3>
-                    <p class="text-sm italic">Pemakan Tumbuhan</p>
-                    <p class="mt-2 text-xs">Gigi geraham lebar untuk menggiling serat. Contoh: Gajah, Sapi.</p>
+                
+                <div class="mb-8 flex flex-wrap gap-3">
+                    <a href="https://www.canva.com/design/DAHJg4KG170/glNe_vC7boFXinoo2fLaJg/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center shadow-sm"><i class="fas fa-video mr-2"></i> Tonton Animasi Darat (Canva)</a>
+                    <a href="https://gemini.google.com/share/13138db0b978" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-sm"><i class="fas fa-gamepad mr-2"></i> Main Game Bab 1 (Bagian 1)</a>
                 </div>
-                <div class="bg-red-100 p-4 rounded border border-red-300">
-                    <h3 class="font-bold">Karnivora</h3>
-                    <p class="text-sm italic">Pemakan Daging</p>
-                    <p class="mt-2 text-xs">Gigi taring runcing untuk mengoyak. Contoh: Harimau, Elang.</p>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-3">1.2 Hewan yang Hidup di Air</h2>
+                <p class="mb-4 text-gray-700">Air adalah rumah bagi ribuan jenis ikan dan makhluk unik lainnya. Kebanyakan hewan air bernapas dengan <strong>insang</strong>. Habitat air dibagi menjadi dua kelompok besar:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                        <h3 class="font-bold text-blue-800 mb-2"><i class="fas fa-tint mr-1"></i> A. Air Tawar</h3>
+                        <p class="text-sm text-gray-700 mb-2">Air tawar adalah air yang tidak terasa asin (kadar garamnya rendah). Biasanya ada di sekitar kita.</p>
+                        <p class="text-xs text-gray-600"><strong>Tempatnya:</strong> Sungai, danau, rawa, dan kolam.<br><strong>Contoh Hewan:</strong> Ikan Mas, Ikan Lele, Ikan Nila, dan Belut.</p>
+                    </div>
+                    <div class="bg-blue-900 text-white p-5 rounded-xl">
+                        <h3 class="font-bold text-blue-300 mb-2"><i class="fas fa-water mr-1"></i> B. Air Laut</h3>
+                        <p class="text-sm text-blue-100 mb-2">Air laut terasa sangat asin karena mengandung banyak garam. Ikan laut memiliki tubuh yang kuat untuk menahan rasa asin tersebut.</p>
+                        <p class="text-xs text-blue-200"><strong>Tempatnya:</strong> Samudra dan laut lepas yang sangat luas.<br><strong>Contoh Hewan:</strong> Ikan Hiu, Ikan Paus, Gurita, dan Lumba-lumba.</p>
+                    </div>
                 </div>
-                <div class="bg-blue-100 p-4 rounded border border-blue-300">
-                    <h3 class="font-bold">Omnivora</h3>
-                    <p class="text-sm italic">Pemakan Segala</p>
-                    <p class="mt-2 text-xs">Gigi lengkap (seri, taring, geraham). Contoh: Ayam, Monyet.</p>
+                <div class="alert-box mb-4">
+                    <i class="fas fa-exclamation-triangle mr-2 text-red-600"></i><strong>Penting!</strong> Ikan laut biasanya tidak bisa bertahan hidup jika dipindahkan ke air tawar, begitu juga sebaliknya. Mereka butuh "kadar garam" yang pas untuk tetap sehat.
+                </div>
+                
+                <div class="mb-8">
+                    <a href="https://www.canva.com/design/DAHJgyMA35o/Rz_8htMJUHB3v2JYYq5CJw/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center shadow-sm"><i class="fas fa-video mr-2"></i> Tonton Animasi Air (Canva)</a>
+                </div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-3">1.3 Hewan Amfibi (Hidup di Dua Alam)</h2>
+                <p class="mb-3 text-gray-700">Kata kunci untuk amfibi adalah <strong>"Perubahan"</strong> atau <strong>"Transisi"</strong>. Hewan ini sangat hebat karena bisa hidup di dua tempat yang berbeda sepanjang hidupnya:</p>
+                <ul class="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+                    <li><strong>Masa Kecil (Berudu/Kecebong):</strong> Saat menetas dari telur, mereka hidup sepenuhnya di <strong>air</strong> dan bernapas menggunakan <strong>insang</strong> seperti ikan.</li>
+                    <li><strong>Masa Dewasa:</strong> Setelah tumbuh besar, tubuh mereka berubah. Mereka tumbuh kaki dan mulai bernapas dengan <strong>paru-paru</strong> agar bisa pindah ke <strong>darat</strong>.</li>
+                </ul>
+                <div class="info-box mb-4">
+                    <i class="fas fa-info-circle mr-2"></i><strong>Kenapa harus tetap dekat dengan air?</strong> Meskipun sudah bisa di darat, kulit hewan amfibi sangat tipis dan harus selalu <strong>lembap (basah)</strong> agar mereka bisa bernapas dengan bantuan kulit. Jika kulitnya terlalu kering, mereka bisa sakit.<br><strong>Contoh Hewan:</strong> Katak, Kodok, dan Salamander.
+                </div>
+                
+                <div class="mb-4 flex flex-wrap gap-3 bg-green-100 p-4 rounded-xl items-center justify-between border border-green-200">
+                    <a href="https://www.canva.com/design/DAHJgw_Vv1k/_34hpAvUTN2Pgzo8TxpTwA/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Amfibi (Canva)</a>
+                    <a href="https://gemini.google.com/share/d46206437483" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-md animate-pulse"><i class="fas fa-gamepad mr-2"></i> Main Game Utama Bab 1</a>
                 </div>
             </div>
-        </div>
 
-        <div id="bab7" class="chapter-card mt-8">
-            <h1 class="text-4xl font-bold text-green-800 mb-6">Daur Hidup (Metamorfosis)</h1>
-            <p class="mb-4 text-gray-700">Daur hidup adalah tahapan kehidupan dari lahir hingga dewasa.</p>
-            
-            <div class="bg-white p-6 rounded-xl shadow mb-6">
-                <h3 class="font-bold text-xl mb-4">Perbandingan Metamorfosis</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Metamorfosis Sempurna</th>
-                            <th>Metamorfosis Tidak Sempurna</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Mengalami fase pupa/kepompong</td>
-                            <td>Tidak memiliki fase pupa</td>
-                        </tr>
-                        <tr>
-                            <td>Bentuk muda & dewasa sangat berbeda</td>
-                            <td>Bentuk muda & dewasa hampir sama</td>
-                        </tr>
-                        <tr>
-                            <td>Contoh: Kupu-kupu, Nyamuk</td>
-                            <td>Contoh: Kecoak, Belalang</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="bab2" class="chapter-card">
+                <h1 class="text-3xl font-bold text-green-900 mb-2">BAB 2: Bagaimana Hewan Bergerak?</h1>
+                <p class="text-gray-600 mb-6">Setiap hewan memiliki cara dan rahasia tubuh tersendiri untuk bergerak di habitatnya.</p>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">2.1 Melompat: Si Kaki Pegas</h2>
+                <p class="text-gray-700 mb-3">Pernahkah kamu melihat per? Jika ditekan lalu dilepaskan, per akan meluncur jauh. Itulah rahasia hewan pelompat!</p>
+                <p class="text-gray-700 mb-3"><strong>Rahasia Tubuhnya:</strong> Hewan ini memiliki kaki bagian belakang yang jauh lebih panjang, besar, dan kuat daripada kaki depannya. Otot kaki belakang mereka sangat elastis, persis seperti <strong>pegas</strong>.</p>
+                <p class="text-gray-700 mb-4"><strong>Cara Bergerak:</strong> Mereka menekuk kaki belakangnya yang kuat, lalu menolaknya ke tanah dengan kencang sehingga tubuhnya terlempar ke depan.<br><strong>Contoh Hewan:</strong> Kanguru, Katak, Kelinci, dan Belalang.</p>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJRrRHPV4/SKus4tRQTv7qY2ccBypdLQ/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Melompat</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">2.2 Terbang: Menembus Angkasa</h2>
+                <p class="text-gray-700 mb-3">Mengapa burung bisa tetap berada di udara dan tidak jatuh ke bawah? Itu karena mereka memiliki sayap yang ajaib.</p>
+                <p class="text-gray-700 mb-3"><strong>Rahasia Tubuhnya:</strong> Sayap memiliki bentuk yang melengkung. Saat hewan mengepakkan sayap dengan kuat, sayap tersebut menciptakan <strong>gaya angkat</strong>. Udara akan mendorong tubuh hewan ke atas sehingga mereka bisa melayang.</p>
+                <p class="text-gray-700 mb-4"><strong>Berat Tubuh:</strong> Tulang-tulang hewan yang terbang biasanya sangat ringan agar mereka tidak keberatan saat berada di udara.<br><strong>Contoh Hewan:</strong> Burung, Kupu-kupu, Lebah, dan satu-satunya mamalia yang bisa terbang: Kelelawar.</p>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJR4XIeNk/CF0jqXCOBZ_FFqfwrHbs9w/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Terbang</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">2.3 Merayap vs Melata</h2>
+                <p class="text-gray-700 mb-4">Banyak orang mengira ular dan cecak itu sama cara bergeraknya, padahal sangat berbeda, lho! Yuk, kita lihat perbedaannya:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-yellow-600">
+                        <h3 class="font-bold text-yellow-700 mb-1">A. Merayap (Menggunakan Kaki)</h3>
+                        <p class="text-sm text-gray-700 mb-2">Hewan merayap memiliki kaki, meskipun kakinya seringkali pendek atau terletak di samping tubuh. Mereka menggunakan kaki tersebut untuk menempel atau mendorong tubuhnya di permukaan.</p>
+                        <p class="text-xs font-semibold text-gray-600"><strong>Ciri Utama:</strong> Punya kaki.<br><strong>Contoh Hewan:</strong> Cecak (punya perekat di kaki), Tokek, Buaya, dan Komodo.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-red-600">
+                        <h3 class="font-bold text-red-700 mb-1">B. Melata (Tanpa Kaki)</h3>
+                        <p class="text-sm text-gray-700 mb-2">Hewan melata benar-benar tidak memiliki kaki sama sekali. Lalu bagaimana mereka berpindah tempat? Mereka menggunakan <strong>otot perut</strong> yang sangat kuat.</p>
+                        <p class="text-sm text-gray-700 mb-2"><strong>Cara Bergerak:</strong> Mereka mengerutkan dan merenggangkan otot perutnya secara bergantian sehingga tubuhnya bergeser maju atau meliuk-liuk di atas tanah.</p>
+                        <p class="text-xs font-semibold text-gray-600"><strong>Ciri Utama:</strong> Tidak punya kaki, hanya mengandalkan perut.<br><strong>Contoh Hewan:</strong> Ular dan Cacing Tanah.</p>
+                    </div>
+                </div>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJRstwkUw/gLKIZDDuy09wxksg1x97gg/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Merayap vs Melata</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">2.4 Berenang: Pendayung Air</h2>
+                <p class="text-gray-700 mb-3">Untuk bergerak di dalam air yang berat, hewan butuh "alat pengayuh" agar bisa meluncur dengan cepat.</p>
+                <p class="text-gray-700 mb-4"><strong>Rahasia Tubuhnya:</strong> Ikan menggunakan <strong>sirip</strong> dan <strong>ekor</strong>. Ekor berfungsi sebagai pendorong (mesin), sedangkan sirip berfungsi sebagai kemudi untuk berbelok ke kiri atau ke kanan.<br><strong>Contoh Hewan:</strong> Berbagai jenis Ikan, Lumba-lumba, dan Paus.</p>
+                
+                <div class="flex flex-wrap gap-3 bg-green-100 p-4 rounded-xl items-center justify-between border border-green-200">
+                    <a href="https://www.canva.com/design/DAHJkV4sBQU/PFhu2m-rgTbGd9OLRxeKLg/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Berenang</a>
+                    <a href="https://gemini.google.com/share/7a777c493b8f" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-md"><i class="fas fa-gamepad mr-2"></i> Main Game Bab 2</a>
+                </div>
             </div>
-        </div>
 
-        <div class="mt-12 flex justify-between">
-            <button onclick="prevChapter()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition">
-                <i class="fas fa-arrow-left mr-2"></i> Sebelumnya
-            </button>
-            <button onclick="nextChapter()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
-                Berikutnya <i class="fas fa-arrow-right ml-2"></i>
-            </button>
-        </div>
-    </div>
+            <div id="bab3" class="chapter-card">
+                <h1 class="text-3xl font-bold text-green-900 mb-4">BAB 3: Apa yang Hewan Makan? (Jenis Makanan)</h1>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="bg-green-50 p-5 rounded-xl border border-green-200">
+                        <h2 class="text-xl font-bold text-green-800 flex items-center"><i class="fas fa-seedling mr-2"></i> 3.1 Herbivora: Si Penyuka Tanaman</h2>
+                        <p class="text-gray-700 my-2">Hewan Herbivora adalah hewan yang hanya makan bagian-bagian tumbuhan, seperti daun, rumput, batang, buah, atau biji-bijian.</p>
+                        <p class="text-sm text-gray-600"><strong>Sifat Umum:</strong> Kebanyakan (tapi tidak semua) adalah hewan yang cukup jinak dan sering menjadi sasaran bagi hewan pemburu (mangsa).</p>
+                        <p class="text-sm text-gray-700 font-semibold mt-2"><strong>Rahasia Giginya:</strong> Mereka punya gigi seri yang tajam untuk memotong rumput dan <strong>gigi geraham yang lebar</strong> serta datar. Gigi geraham ini gunanya untuk menggiling serat daun yang ulet dan keras sampai halus sebelum ditelan.<br><strong>Contoh Hewan:</strong> Sapi, Kambing, Kelinci, Kuda, dan Gajah.</p>
+                        <div class="mt-3"><a href="https://www.canva.com/design/DAHJkKXKn1E/ufossKdeycMxyUrRLfL7jA/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Herbivora</a></div>
+                    </div>
 
-    <script>
-        const chapters = ['bab1', 'bab2', 'bab3', 'bab4', 'bab5', 'bab6', 'bab7'];
-        let currentIdx = 0;
+                    <div class="bg-red-50 p-5 rounded-xl border border-red-200">
+                        <h2 class="text-xl font-bold text-red-800 flex items-center"><i class="fas fa-drumstick-bite mr-2"></i> 3.2 Karnivora: Si Pemburu Hebat</h2>
+                        <p class="text-gray-700 my-2">Hewan Karnivora adalah hewan yang makanannya berupa daging atau hewan lainnya. Mereka adalah pemburu yang tangguh di alam liar.</p>
+                        <p class="text-sm text-gray-600"><strong>Sifat Umum:</strong> Mereka punya indra penglihatan dan penciuman yang sangat tajam untuk mencari mangsa dari jarak jauh. Larinya pun biasanya sangat cepat!</p>
+                        <p class="text-sm text-gray-700 font-semibold mt-2"><strong>Rahasia Giginya:</strong> Senjata utama mereka adalah <strong>gigi taring yang panjang dan runcing</strong>. Gigi ini gunanya untuk mencengkeram mangsa dan mengoyak daging dengan mudah.<br><strong>Contoh Hewan:</strong> Harimau, Singa, Elang (menggunakan paruh dan cakar tajam), Serigala, dan Buaya.</p>
+                        <div class="mt-3"><a href="https://www.canva.com/design/DAHJj69dUl0/eZ-BtjRnRHdJy8ufYHbfaw/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Karnivora</a></div>
+                    </div>
 
-        function showChapter(id, element) {
-            // Update active content
-            document.querySelectorAll('.chapter-card').forEach(card => card.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+                    <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                        <h2 class="text-xl font-bold text-blue-800 flex items-center"><i class="fas fa-cookie-bite mr-2"></i> 3.3 Omnivora: Si Pemakan Segala</h2>
+                        <p class="text-gray-700 my-2">Hewan Omnivora adalah hewan yang sangat hebat karena bisa makan apa saja! Mereka makan tumbuhan, tapi juga suka makan daging atau serangga kecil.</p>
+                        <p class="text-sm text-gray-600"><strong>Sifat Umum:</strong> Mereka disebut hewan yang <strong>adaptif</strong>. Artinya, mereka bisa bertahan hidup dengan mudah di mana saja karena bisa makan apa pun yang tersedia di lingkungan mereka. Kalau tidak ada buah, mereka cari cacing; kalau tidak ada daging, mereka makan biji-bijian.</p>
+                        <p class="text-sm text-gray-700 font-semibold mt-2"><strong>Rahasia Giginya:</strong> Mereka punya paket gigi yang lengkap! Ada gigi seri untuk memotong, gigi taring untuk mengoyak, dan gigi geraham untuk mengunyah.<br><strong>Contoh Hewan:</strong> Ayam (makan beras dan cacing), Bebek, Tikus, Beruang, dan Monyet.</p>
+                        <div class="mt-3"><a href="https://www.canva.com/design/DAHJRpTdQXM/qNSPhCjwyOd_rVt9tfnpYQ/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Omnivora</a></div>
+                    </div>
+                </div>
 
-            // Update sidebar active class
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            if(element) element.classList.add('active');
+                <div class="bg-green-100 p-4 rounded-xl flex items-center justify-between border border-green-200">
+                    <span class="text-sm font-semibold text-green-900">Uji pengetahuan golongan makanannya di sini:</span>
+                    <a href="https://gemini.google.com/share/23d83d14e78f" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-md"><i class="fas fa-gamepad mr-2"></i> Main Game Bab 3</a>
+                </div>
+            </div>
 
-            // Update Progress
-            currentIdx = chapters.indexOf(id);
-            updateProgress();
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+            <div id="bab4" class="chapter-card">
+                <h1 class="text-3xl font-bold text-green-900 mb-4">BAB 4: Kekuatan Super (Ciri Khusus) Hewan</h1>
+                
+                <h2 class="text-xl font-semibold text-green-800 mb-3">4.1 Ciri Khusus untuk Melindungi Diri</h2>
+                <p class="text-gray-700 mb-4">Agar tidak dimakan oleh musuh, hewan-hewan ini punya cara bertahan yang sangat cerdik:</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-white p-5 rounded-xl shadow-sm">
+                        <span class="text-xs font-bold uppercase tracking-wider text-green-600">Bunglon</span>
+                        <h4 class="font-bold text-lg mb-1">Mimikri (Penyamar Ulung)</h4>
+                        <p class="text-xs text-gray-600">Mengubah warna kulit sesuai dengan tempat ia berada. Jika di daun hijau, ia jadi hijau; jika di batang cokelat, ia jadi cokelat. Ini gunanya agar ia tidak terlihat oleh musuh (kamuflase).</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm">
+                        <span class="text-xs font-bold uppercase tracking-wider text-orange-600">Landak</span>
+                        <h4 class="font-bold text-lg mb-1">Si Penuh Duri</h4>
+                        <p class="text-xs text-gray-600">Tubuh landak dilapisi oleh ribuan duri yang tajam. Jika ada musuh mendekat, landak akan menggulung tubuhnya menjadi seperti bola berduri agar musuh tidak berani menyentuhnya.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm">
+                        <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Cecak</span>
+                        <h4 class="font-bold text-lg mb-1">Autotomi (Trik Ekor Putus)</h4>
+                        <p class="text-xs text-gray-600">Saat dalam bahaya, cecak akan memutuskan ekornya. Ekor yang putus tetap bergerak-gerak untuk mengecoh musuh, sementara cecak lari. Tenang, ekornya bisa tumbuh lagi!</p>
+                    </div>
+                </div>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJRgLy5b0/KpVMlQ7FYgl1NDlIDfKP7w/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Perlindungan Diri</a></div>
 
-        function updateProgress() {
-            let progress = Math.round(((currentIdx + 1) / chapters.length) * 100);
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressText').innerText = progress + '%';
-        }
+                <h2 class="text-xl font-semibold text-green-800 mb-3">4.2 Ciri Khusus untuk Mencari Makan</h2>
+                <p class="text-gray-700 mb-3">Tuhan membekali mereka alat khusus agar perut mereka tidak lapar:</p>
+                <ul class="space-y-3 text-gray-700 mb-4">
+                    <li><strong>Kelelawar (Radar Malam):</strong> Keluar mencari makan di malam yang gelap. Mereka memiliki kekuatan <strong>Ekolokasi</strong>. Mereka mengeluarkan suara tinggi yang tidak terdengar manusia, suara itu akan memantul pada benda di depannya, lalu kelelawar bisa tahu di mana letak mangsanya tanpa harus melihat jelas.</li>
+                    <li><strong>Burung Pelatuk (Pahat Alami):</strong> Memiliki paruh yang sangat keras dan kuat. Fungsinya mirip alat pahat, yaitu untuk melubangi batang pohon agar ia bisa menangkap serangga yang bersembunyi di dalam kayu.</li>
+                    <li><strong>Kupu-kupu (Mulut Sedotan):</strong> Tidak mengunyah makanan. Mereka memiliki alat pengisap yang disebut <strong>Probosis</strong>. Alat ini panjang dan bisa digulung, gunanya seperti sedotan untuk mengisap nektar (sari bunga) yang manis di dasar bunga.</li>
+                </ul>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJRr91fts/o6xXWvA4R1DUlDBUNmGYPQ/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Ciri Mencari Makan</a></div>
 
-        function nextChapter() {
-            if (currentIdx < chapters.length - 1) {
-                currentIdx++;
-                showChapter(chapters[currentIdx]);
-                updateSidebar();
-            }
-        }
+                <h2 class="text-xl font-semibold text-green-800 mb-3">4.3 Ciri Khusus pada Anggota Tubuh Lainnya</h2>
+                <p class="text-gray-700 mb-3">Beberapa hewan punya perlengkapan "canggih" di tubuhnya untuk tinggal di tempat yang sulit:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+                        <h4 class="font-bold text-green-800 mb-1">Bebek (Si Perenang Handal)</h4>
+                        <p class="text-sm text-gray-700"><strong>Kaki Berselaput:</strong> Membantu mereka mendayung dengan mudah di air dan berjalan di atas lumpur agar tidak terperosok.<br><strong>Bulu Berminyak:</strong> Punya lapisan minyak khusus. Meskipun berenang lama, air tidak akan meresap ke dalam kulit dan badan bebek tetap kering dan hangat.</p>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                        <h4 class="font-bold text-amber-800 mb-1">Unta (Si Tangguh Gurun)</h4>
+                        <p class="text-sm text-gray-700"><strong>Punuk:</strong> Banyak yang mengira punuk berisi air, padahal isinya adalah lemak cadangan. Dengan punuk ini, unta bisa berjalan berhari-hari di gurun pasir yang panas tanpa makan dan minum karena mereka "memakan" lemak dari punggungnya sendiri.</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 bg-green-100 p-4 rounded-xl items-center justify-between border border-green-200">
+                    <a href="https://www.canva.com/design/DAHJkHG_ODY/H08a2NaXBBQw-nBuyR2qyQ/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Tubuh Unta & Bebek</a>
+                    <a href="https://gemini.google.com/share/6fc9732b93f8" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-md"><i class="fas fa-gamepad mr-2"></i> Main Game Bab 4</a>
+                </div>
+            </div>
 
-        function prevChapter() {
-            if (currentIdx > 0) {
-                currentIdx--;
-                showChapter(chapters[currentIdx]);
-                updateSidebar();
-            }
-        }
+            <div id="bab5" class="chapter-card">
+                <h1 class="text-3xl font-bold text-green-900 mb-2">BAB 5: Hubungan Bentuk Tubuh dan Tempat Hidup</h1>
+                <p class="text-gray-600 mb-6">Makhluk hidup memiliki bentuk tubuh yang berbeda-beda sesuai dengan lingkungan tempat tinggalnya sebagai bentuk adaptasi.</p>
 
-        function updateSidebar() {
-            document.querySelectorAll('.nav-item').forEach((item, index) => {
-                item.classList.toggle('active', index === currentIdx);
-            });
-        }
-    </script>
-</body>
-</html>
+                <h2 class="text-xl font-semibold text-green-800 mb-2">5.1 Bentuk Tubuh Hewan Air</h2>
+                <p class="text-gray-700 mb-3">Hewan yang hidup di air memiliki bentuk tubuh khusus agar dapat bergerak dan bernapas dengan baik di dalam air. Salah satu contohnya adalah ikan. Ikan memiliki bentuk tubuh yang ramping atau <strong>streamline</strong>. Bentuk tubuh seperti ini membantu ikan bergerak lebih cepat dan mudah membelah air ketika berenang. Jika tubuh ikan terlalu besar dan tidak ramping, ikan akan sulit bergerak karena mendapat hambatan dari air.</p>
+                <p class="text-gray-700 mb-3">Selain itu, ikan juga memiliki sirip yang membantu menjaga keseimbangan dan mengarahkan gerakan saat berenang. Ekor ikan digunakan untuk mendorong tubuh agar dapat melaju di dalam air. Ikan bernapas menggunakan insang yang berfungsi mengambil oksigen terlarut di dalam air.</p>
+                <p class="text-sm text-gray-600 mb-4">Beberapa hewan air lainnya juga mendukung kehidupan di air, seperti: Bebek dengan kaki berselaput untuk berenang serta Paus dan lumba-lumba yang memiliki tubuh licin dan ramping.</p>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJRzbJvBE/tPYmlz4DYBlUTI_byiqn_w/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Adaptasi Hewan Air</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">5.2 Bentuk Tubuh Hewan di Daerah Kering (Gurun)</h2>
+                <p class="text-gray-700 mb-3">Gurun memiliki cuaca sangat panas pada siang hari dan minim air. Unta si “kapal padang pasir” beradaptasi melalui bentuk tubuhnya:</p>
+                <ol class="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+                    <li><strong>Punuk:</strong> Menyimpan cadangan lemak yang dapat diubah menjadi energi ketika unta sulit mendapatkan makanan.</li>
+                    <li><strong>Bulu Mata Panjang & Hidung Khusus:</strong> Melindungi mata dari debu pasir gurun dan hidung yang dapat menutup sebagian agar pasir tidak masuk saat badai.</li>
+                    <li><strong>Kaki Panjang & Telapak Lebar:</strong> Kaki panjang menjauhkan tubuh dari panasnya pasir, dan telapak lebar mencegah kaki tenggelam (ambles) di pasir.</li>
+                    <li><strong>Kemampuan Menyimpan Air:</strong> Menghemat penggunaan air internal dan mampu minum dalam jumlah sangat banyak sekaligus saat menemukan air.</li>
+                </ol>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJjtdTp0s/cz2_Vv4AD-dxhxYMBCWmQQ/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Adaptasi Gurun</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">5.3 Bentuk Paruh dan Kaki Burung Berdasarkan Habitatnya</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-white p-4 border border-gray-200 rounded-lg">
+                        <h4 class="font-bold text-green-700 border-b pb-1 mb-2">A. Bentuk Paruh Burung</h4>
+                        <p class="text-sm mb-2"><strong>1. Paruh Burung Elang:</strong> Pemakan daging. Memiliki paruh tajam, kuat, dan melengkung ke bawah untuk merobek daging mangsa dengan mudah.</p>
+                        <p class="text-sm"><strong>2. Paruh Burung Pipit:</strong> Pemakan biji-bijian. Memiliki paruh pendek, kecil, dan kuat untuk memudahkan memecahkan biji.</p>
+                    </div>
+                    <div class="bg-white p-4 border border-gray-200 rounded-lg">
+                        <h4 class="font-bold text-green-700 border-b pb-1 mb-2">B. Bentuk Kaki Burung</h4>
+                        <p class="text-sm mb-2"><strong>1. Kaki Burung Bangau:</strong> Hidup di rawa/lumpur. Memiliki kaki yang panjang dan ramping untuk berjalan di air dangkal/lumpur tanpa membuat tubuhnya basah.</p>
+                        <p class="text-sm"><strong>2. Kaki Burung Elang:</strong> Memiliki kaki yang kuat dan bercakar tajam guna menangkap serta mencengkeram mangsa berburu agar tidak lepas.</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 bg-green-100 p-4 rounded-xl items-center justify-between border border-green-200">
+                    <a href="https://www.canva.com/design/DAHJjrIE3o4/wFCUbliJv90EwAGrZz0y4Q/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Paruh & Kaki Burung</a>
+                    <a href="https://gemini.google.com/share/78a2b2fe7858" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-md"><i class="fas fa-gamepad mr-2"></i> Main Game Bab 5</a>
+                </div>
+            </div>
+
+            <div id="bab6" class="chapter-card">
+                <h1 class="text-3xl font-bold text-green-900 mb-2">BAB 6: Pelestarian Hewan</h1>
+                <p class="text-gray-600 mb-6">Manusia memegang peran penting dalam melestarikan satwa demi menjaga ekosistem bumi.</p>
+
+                <h2 class="text-xl font-semibold text-red-700 mb-2">6.1 Mengapa Hewan Bisa Punah?</h2>
+                <p class="text-gray-700 mb-3">Punah berarti hilangnya seluruh jenis hewan tertentu dari muka bumi tanpa sisa. Berikut beberapa penyebab utama akibat ulah manusia:</p>
+                <ul class="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+                    <li><strong>1. Penebangan Hutan:</strong> Hewan kehilangan habitat asli dan sumber makanannya. Contoh: Orangutan kehilangan rumah akibat perluasan kebun, dan Harimau sulit berburu karena hutan menyempit.</li>
+                    <li><strong>2. Perburuan Liar:</strong> Memburu satwa tanpa izin demi mengambil bagian tubuh komersial (kulit harimau, cula badak) atau diperjualbelikan ilegal secara bebas.</li>
+                    <li><strong>3. Pencemaran Lingkungan:</strong> Sampah plastik, limbah pabrik, polusi meracuni tempat hidup hewan. Contoh: Ikan mati terkena limbah sungai dan penyu memakan plastik karena dikira ubur-ubur.</li>
+                </ul>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJR1fUhy8/T0PagLZ-nH6aRzuXE9K0Zg/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Faktor Kepunahan</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">6.2 Mengenal Hewan Langka di Indonesia</h2>
+                <p class="text-sm text-gray-700 mb-4">Hewan langka adalah hewan yang populasinya tinggal sedikit dan dilindungi oleh hukum negara:</p>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4 text-xs">
+                    <div class="bg-white p-3 rounded shadow-sm border-b-4 border-green-600">
+                        <strong>1. Orangutan:</strong> Primata berbulu cokelat kemerahan, hidup di hutan Kalimantan & Sumatra. Terancam punah karena kerusakan hutan.
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-b-4 border-green-600">
+                        <strong>2. Komodo:</strong> Kadal terbesar di dunia yang hidup eksklusif di Nusa Tenggara Timur (Pulau Komodo). Habitatnya sangat terbatas.
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-b-4 border-green-600">
+                        <strong>3. Harimau Sumatera:</strong> Jenis harimau berukuran tubuh paling kecil yang tersisa di Indonesia. Terancam punah karena perburuan.
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-b-4 border-green-600">
+                        <strong>4. Badak Bercula Satu:</strong> Hidup dilindungi di kawasan hutan Jawa (Ujung Kulon). Termasuk salah satu hewan paling langka sedunia.
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-b-4 border-green-600">
+                        <strong>5. Burung Cenderawasih:</strong> Burung khas Papua yang terkenal karena keindahan bulu warna-warninya. Sering diburu secara ilegal.
+                    </div>
+                </div>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJjl6yaZA/wDAES67tcpNQ3A9lRKtFNA/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Satwa Langka</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">6.3 Cara Menjaga dan Melestarikan Hewan</h2>
+                <p class="text-gray-700 mb-3">Langkah nyata yang bisa kita lakukan bersama untuk melindungi satwa:</p>
+                <ol class="list-decimal pl-6 space-y-1.5 text-gray-700 mb-4 text-sm">
+                    <li><strong>Tidak Memelihara Hewan Langka:</strong> Biarkan mereka hidup bebas di alam, bukan dikurung di rumah secara ilegal.</li>
+                    <li><strong>Menjaga Kebersihan Lingkungan:</strong> Tidak membuang sampah sembarangan, mengurangi plastik, menjaga kebersihan ekosistem sungai/hutan.</li>
+                    <li><strong>Menanam Pohon & Menjaga Hutan:</strong> Menghindari penebangan liar agar ketersediaan rumah satwa tetap lestari.</li>
+                    <li><strong>Mengenal Area Perlindungan Resmi:</strong>
+                        <br>&bull; <em>Suaka Margasatwa:</em> Tempat perlindungan khusus bagi hewan liar agar aman berkembang biak.
+                        <br>&bull; <em>Taman Nasional:</em> Kawasan terpadu perlindungan alam (Contoh: TN Ujung Kulon untuk Badak Jawa, TN Komodo untuk Komodo).</li>
+                </ol>
+                
+                <div class="flex flex-wrap gap-3 bg-green-100 p-4 rounded-xl items-center justify-between border border-green-200">
+                    <a href="https://www.canva.com/design/DAHJj80nwvk/cZaOpd9xWHHx3MxV0c2urg/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Solusi Pelestarian</a>
+                    <a href="https://gemini.google.com/share/7cf41d972410" target="_blank" class="bg-yellow-500 hover:bg-yellow-600 text-green-950 text-xs font-bold py-2 px-4 rounded-lg inline-flex items-center shadow-md"><i class="fas fa-gamepad mr-2"></i> Main Game Bab 6</a>
+                </div>
+            </div>
+
+            <div id="bab7" class="chapter-card">
+                <h1 class="text-3xl font-bold text-green-900 mb-2">BAB 7: Daur Hidup (Metamorfosis)</h1>
+                <p class="text-gray-600 mb-4">Daur hidup merangkum tahapan perkembangan makhluk hidup sejak lahir hingga menjadi dewasa. Perubahan bentuk tubuh yang drastis disebut metamorfosis.</p>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">7.1 Daur Hidup Tanpa Metamorfosis</h2>
+                <p class="text-gray-700 mb-3">Beberapa makhluk hidup tidak mengalami perubahan bentuk tubuh drastis. Bentuk tubuh hewan muda hampir sama dengan hewan dewasa, hanya berbeda ukuran, kekuatan, dan kematangannya. Fase daur hidupnya: <strong>Lahir &rarr; Tumbuh &rarr; Dewasa &rarr; Berkembang biak</strong>. <br><strong>Contoh:</strong> Manusia, Kucing, Ayam, dan Sapi. Anak kucing sejak lahir berwujud kucing kecil, tidak berubah bentuk jadi makhluk lain seiring bertambah besar.</p>
+                <div class="mb-6"><a href="https://www.canva.com/design/DAHJR5igI2I/bByaGZkUvcNYzdrKVSuC1Q/watch" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg inline-flex items-center"><i class="fas fa-video mr-2"></i> Tonton Animasi Tanpa Metamorfosis</a></div>
+
+                <h2 class="text-xl font-semibold text-green-800 mb-2">7.2 Metamorfosis Sempurna</h2>
+                <p class="text-gray-700 mb-3">Perubahan bentuk tubuh yang sangat berbeda mencolok antara fase muda dan dewasa. Ciri utamanya melewati fase **Pupa atau Kepompong** tempat tubuh dirombak total.</p>
+                <p class="text-sm font-semibold text-gray-700">Tahapan: Telur &rarr; Larva &rarr; Pupa (Kepompong) &rarr; Hewan Dewasa</p>
+                <p class="text-gray-700 my-2"><strong>Daur Hidup Kupu-Kupu:</strong> Telur (di atas daun) &rarr; Larva/Ulat (aktif makan daun untuk energi) &rarr; Pupa/Kepompong (tampak diam beristirahat mengolah bentuk tubuh) &rarr; Kupu-Kupu Dewasa (keluar dengan sayap yang indah).<br><strong>Contoh Lainnya:</strong> Nyamuk, Lalat, dan Katak.</p>
+                <div class="mb-
